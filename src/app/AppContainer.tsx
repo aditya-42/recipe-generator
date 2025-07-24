@@ -29,7 +29,6 @@ function AppContainer() {
   const [suggestions, setSuggestions] = useState([]);
   const [query, setQuery] = useState("");
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-  const [error, setError] = useState("");
   const [recipes, setRecipes] = useState([]);
   const debouncedQuery = useDebounce(query, 500);
   const maxIngredientCount = 5;
@@ -98,7 +97,6 @@ function AppContainer() {
     }
 
     setIsLoading(true);
-    setError("");
 
     try {
       // Local data
@@ -158,7 +156,7 @@ function AppContainer() {
         }
       }
     } catch (err) {
-      setError("Failed to fetch recipes");
+      console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -215,7 +213,6 @@ function AppContainer() {
 
         try {
           setLoadingSuggestions(true);
-          setError("");
 
           const url = `https://api.spoonacular.com/food/ingredients/autocomplete?query=${debouncedQuery}&number=5&apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}`;
           const res = await fetch(url);
@@ -227,10 +224,10 @@ function AppContainer() {
 
           setSuggestions(data);
           if (data.length === 0 && debouncedQuery.length >= 3) {
-            setError("Ingredient not found");
+            console.log("Ingredient not found");
           }
         } catch (err) {
-          setError("Failed to fetch ingredients.");
+          console.log("Failed to fetch ingredients.");
           setSuggestions([]);
         } finally {
           setLoadingSuggestions(false);

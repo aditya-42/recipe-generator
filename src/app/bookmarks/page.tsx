@@ -27,7 +27,7 @@ export default function BookmarksPage() {
 
   return (
     <div className="h-screen p-4 max-w-4xl mx-auto">
-      <Link href="/home">
+      <Link href="/">
         <Button>
           <BiLeftArrowCircle /> Back to Search
         </Button>

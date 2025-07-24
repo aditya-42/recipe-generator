@@ -29,7 +29,7 @@ const RecipeCard: React.FC<Props> = ({
           alt={r.title}
           width={200}
           height={200}
-          className="p-2 object-cover mb-2 rounded"
+          className="p-2 object-cover mb-2 rounded-xl"
         />
       </div>
       <div className="flex flex-col gap-4 items-start w-full justify-center text-left">
@@ -38,7 +38,7 @@ const RecipeCard: React.FC<Props> = ({
           {isBookmarked ? (
             <button
               onClick={onRemoveBookmark}
-              className="flex items-center gap-1 text-sm px-3 py-1 rounded"
+              className="flex items-center gap-1 text-sm px-3 py-1"
             >
               <BsBookmarkFill size={20} />
             </button>
@@ -46,7 +46,7 @@ const RecipeCard: React.FC<Props> = ({
             onBookmark && (
               <button
                 onClick={onBookmark}
-                className="flex items-center gap-1 text-sm px-3 py-1 rounded"
+                className="flex items-center gap-1 text-sm px-3 py-1"
               >
                 <BsBookmark size={20} />
               </button>
@@ -56,9 +56,10 @@ const RecipeCard: React.FC<Props> = ({
 
         {r.description && <p className="text-sm">{r.description}</p>}
         {r.matchedIngredients && (
-          <p className="text-xs text-gray-600">
-            Matched Ingredient(s): {r.matchedIngredients.join(", ")}
-          </p>
+          <div>
+            <span className="font-bold text-xs">Matched Ingredient(s):</span>
+            <span className="text-xs">{r.matchedIngredients.join(", ")}</span>
+          </div>
         )}
       </div>
     </div>
