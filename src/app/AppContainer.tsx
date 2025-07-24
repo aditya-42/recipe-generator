@@ -284,11 +284,7 @@ function AppContainer() {
                     </li>
                   ))}
                 </ul>
-              ) : suggestions.length === 0 ? (
-                <p className="text- text-red-500 mt-1 px-2">
-                  Ingredient not found
-                </p>
-              ) : (
+              ) : suggestions.length > 0 ? (
                 <ul className="border rounded-lg mt-[-10px] max-h-[150px] overflow-y-auto p-0 list-none shadow-sm pb-1 z-10">
                   {suggestions.map((sug: any) => (
                     <li
@@ -301,6 +297,10 @@ function AppContainer() {
                     </li>
                   ))}
                 </ul>
+              ) : (
+                <p className="text-sm mt-1 px-2 text-red-500">
+                  Ingredient not found
+                </p>
               )}
             </div>
           )}
