@@ -4,8 +4,10 @@ Deployed Link - https://recipe-generator-lake-five.vercel.app/
 
 A smart recipe finder built with **Next.js**, supporting search from:
 
+<img width="402" height="676" alt="image" src="https://github.com/user-attachments/assets/09130e99-6e2b-4369-9fbb-4d44700da487" />
 
-<img width="723" height="694" alt="image" src="https://github.com/user-attachments/assets/d36c9397-702a-4e3e-8871-2e89c79000bd" />
+
+
 
 
 
