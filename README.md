@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# [RecipeWiz](https://recipe-generator-lake-five.vercel.app/)
 
-## Getting Started
+Deployed Link - https://recipe-generator-lake-five.vercel.app/
 
-First, run the development server:
+A smart recipe finder built with **Next.js**, supporting search from:
+
+
+<img width="723" height="694" alt="image" src="https://github.com/user-attachments/assets/d36c9397-702a-4e3e-8871-2e89c79000bd" />
+
+
+
+
+- Local dataset
+- [Spoonacular API](https://spoonacular.com/food-api)
+- OpenAI (GPT-3.5) for AI-generated recipe suggestions
+
+Users can:
+- Search ingredients with autosuggestions (debounced)
+- Mix and match up to 5 ingredients
+- Get matching recipes with image, description, and matched ingredients
+- Bookmark favourite recipes (persisted to `localStorage`)
+- Toggle theme mode (light/dark)
+
+---
+
+## Setup Instructions
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/your-username/recipewiz.git
+cd recipewiz
+npm install
+```
+
+### 2. Set Up Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```env
+NEXT_PUBLIC_SPOONACULAR_API_KEY=your_spoonacular_key
+NEXT_PUBLIC_OPENAI_API_KEY=your_openai_key
+```
+
+>  Register for keys below -
+> - [Spoonacular API key](https://spoonacular.com/food-api)
+> - [OpenAI API key](https://platform.openai.com/account/api-keys)
+
+### 3. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features Overview
 
-## Learn More
+- **Ingredient Search**  
+  Type to get autosuggestions from local or API sources (with debounce support).
 
-To learn more about Next.js, take a look at the following resources:
+- **Search Modes**
+  - `Local`: Uses built-in ingredient and recipe data
+  - `Spoonacular`: Fetches real-time recipe data via API
+  - `OpenAI`: Prompts GPT-3.5 to generate recipe suggestions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Dynamic Recipe Cards**
+  - Shows image, description, and matched ingredients
+  - Supports saving (bookmarks) to `localStorage`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Bookmarks Page**
+  - View and remove bookmarked recipes
 
-## Deploy on Vercel
+- **Theme Toggle**
+  - Supports light and dark mode (via system setting or manual toggle)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Recipe matching logic 
+
+```
+function searchLocalRecipes(selectedIngredients: string[]) {
+    return localRecipes
+      .map((recipe, index) => {
+        //convert each ingredient to smallcase and match with recipe ingredients
+        const recipeIngs = recipe.ingredients.map((i) => i.toLowerCase());
+        const matchedIngredients = selectedIngredients.filter((ing) =>
+          recipeIngs.includes(ing.toLowerCase())
+        );
+
+        // return object with matched ingredients
+        return {
+          ...recipe,
+          id: recipe.id ?? recipe.title + index,
+          image: recipe.image ?? "https://static.photos/200x200/80.png",
+          matchCount: matchedIngredients.length,
+          matchedIngredients,
+        };
+      })
+      .filter((recipe) => recipe.matchCount >= 1) // return every matched recipe
+      .sort((a, b) => b.matchCount - a.matchCount); // sort according to number of matches
+  }
+```
+
+## Tech Stack
+
+| Technology       | Purpose                         |
+|------------------|---------------------------------|
+| Next.js 15       | React framework                 |
+| TypeScript       | Static typing                   |
+| Tailwind CSS     | Styling                         |
+| React Icons      | UI icons                        |
+| Spoonacular API  | Real ingredient/recipe search   |
+| OpenAI API       | AI-generated recipe suggestions |
+
+---
+
+## Assumptions
+
+- Public keys are used; no user auth
+- Spoonacular API summary for recipe description not used; this is to prevent deplete precious free-tier credits. 
+- Users will not exceed free-tier API limits
+
+---
+
+## Time Spent
+
+~17 hours total:
+- Core layout + search logic: 4h  
+- API integrations + prompt handling: 6h  
+- UI components + styling: 6h  
+- Deployment: 1hr
+
+---
+
+## Improvements to follow 
+
+-  Add a landing page and keep the API features behind auth.
+-  Improve drop-down list to include keyboard and click interaction.
+-  Add a recipe detail page.
+-  Modularise helper functions into separate files.
+-  Add unit tests for helper functions.
+-  Add full accessibility and ARIA support.
+-  Polish responsiveness for mobile and add toasts.
+-  Reduce type and build errors.
+-  Use React Query for API calls.
+
+---
