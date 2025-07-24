@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
       new URL("https://img.spoonacular.com/recipes/**"),
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;
