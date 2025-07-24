@@ -65,6 +65,8 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
   - `Local`: Uses built-in ingredient and recipe data
   - `Spoonacular`: Fetches real-time recipe data via API
   - `OpenAI`: Prompts GPT-3.5 to generate recipe suggestions
+ 
+- **Skeleton loading**  
 
 - **Dynamic Recipe Cards**
   - Shows image, description, and matched ingredients
